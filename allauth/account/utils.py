@@ -128,9 +128,12 @@ def perform_login(request, user, email_verification,
     # is_active, yet, adapter methods could toy with is_active in a
     # `user_signed_up` signal. Furthermore, social users should be
     # stopped anyway.
+
     adapter = get_adapter(request)
-    if not user.is_active:
-        return adapter.respond_user_inactive(request, user)
+
+    # RAM is_active commented 6/1, rest api can't find account inactive template url
+    # if not user.is_active:
+    #     return adapter.respond_user_inactive(request, user)
 
     from .models import EmailAddress
     has_verified_email = EmailAddress.objects.filter(user=user,
